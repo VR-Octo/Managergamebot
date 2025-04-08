@@ -1,32 +1,41 @@
 import requests
 
-# Replace with your actual Discord Webhook URL
-WEBHOOK_URL = "https://discord.com/api/webhooks/1358881370365104230/I9jtSgQSJw3JZlYPlXTcKdx262H3aZTHoy0g6HRBcdHzy7fZfQ5bx3w13Qaj1Z7OMxpa"
+# Your Discord webhook URL (must be a Discord webhook, not GitHub)
+WEBHOOK_URL = "https://discord.com/api/webhooks/1234567890/abcdefghijklmnopqrstuvwxyz"
 
-def send_discord_message(message):
-    """Send a message to Discord via Webhook"""
+def send_discord_message(message: str):
+    """Send a raw message to the Discord webhook."""
     payload = {"content": message}
     headers = {"Content-Type": "application/json"}
     response = requests.post(WEBHOOK_URL, json=payload, headers=headers)
-
     if response.status_code == 204:
-        print("Message sent successfully!")
+        print("✅ Message sent successfully!")
     else:
-        print(f"Failed to send message: {response.status_code} - {response.text}")
+        print(f"❌ Failed to send message: {response.status_code} {response.text}")
 
-def ban_user(player_id, reason, hours):
-    """Ban a user and notify Discord"""
-    send_discord_message(f"🔴 User **{player_id}** has been banned for {hours} hours. Reason: {reason}")
+def ban_user(player_id: str, reason: str, hours: int):
+    """Format and send a ban notification."""
+    msg = f"🔴 User **{player_id}** has been banned for {hours} hours. Reason: {reason}"
+    send_discord_message(msg)
 
-def give_item_to_user(player_id, item_id):
-    """Give an item to a user and notify Discord"""
-    send_discord_message(f"🎁 User **{player_id}** received item: {item_id}")
+def give_item_to_user(player_id: str, item_id: str):
+    """Format and send an item grant notification."""
+    msg = f"🎁 User **{player_id}** received item: {item_id}"
+    send_discord_message(msg)
 
 def activate_lab_test():
-    """Toggle lab test settings and notify Discord"""
-    send_discord_message("🧪 Lab Test settings **ENABLED** ✅")
+    """Send a lab test activation notification."""
+    msg = "🧪 Lab Test settings **ENABLED** ✅"
+    send_discord_message(msg)
 
-# Example usage:
-ban_user("Player123", "Cheating", 24)
-give_item_to_user("Player123", "GoldenSword")
-activate_lab_test()
+def deactivate_lab_test():
+    """Send a lab test deactivation notification."""
+    msg = "🧪 Lab Test settings **DISABLED** ❌"
+    send_discord_message(msg)
+
+if __name__ == "__main__":
+    # Examples of how to call them:
+    ban_user("Player123", "Cheating in arena", 24)
+    give_item_to_user("Player123", "GoldenSword")
+    activate_lab_test()
+    deactivate_lab_test()
