@@ -1,0 +1,32 @@
+import requests
+
+# Replace with your actual Discord Webhook URL
+WEBHOOK_URL = "https://discord.com/api/webhooks/1358881370365104230/I9jtSgQSJw3JZlYPlXTcKdx262H3aZTHoy0g6HRBcdHzy7fZfQ5bx3w13Qaj1Z7OMxpa"
+
+def send_discord_message(message):
+    """Send a message to Discord via Webhook"""
+    payload = {"content": message}
+    headers = {"Content-Type": "application/json"}
+    response = requests.post(WEBHOOK_URL, json=payload, headers=headers)
+
+    if response.status_code == 204:
+        print("Message sent successfully!")
+    else:
+        print(f"Failed to send message: {response.status_code} - {response.text}")
+
+def ban_user(player_id, reason, hours):
+    """Ban a user and notify Discord"""
+    send_discord_message(f"🔴 User **{player_id}** has been banned for {hours} hours. Reason: {reason}")
+
+def give_item_to_user(player_id, item_id):
+    """Give an item to a user and notify Discord"""
+    send_discord_message(f"🎁 User **{player_id}** received item: {item_id}")
+
+def activate_lab_test():
+    """Toggle lab test settings and notify Discord"""
+    send_discord_message("🧪 Lab Test settings **ENABLED** ✅")
+
+# Example usage:
+ban_user("Player123", "Cheating", 24)
+give_item_to_user("Player123", "GoldenSword")
+activate_lab_test()
